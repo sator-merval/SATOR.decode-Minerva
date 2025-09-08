@@ -1,1 +1,0 @@
-# SATOR.decode-Minerva

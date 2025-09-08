@@ -1,0 +1,258 @@
+/* =========================
+   SATOR.decode // Minerva
+   style.minerva.css — clean reset
+   ========================= */
+
+/* ---- Variables globales ---- */
+:root{
+  --bg: #0a0f11;
+  --gold:    #f0dca8;      /* or pâle */
+  --apatite: #69d1c6;      /* stroke bleu-apatite */
+
+  --petrolA: 0, 90,100;    /* bleu pétrole sombre (r,g,b) */
+  --petrolB: 0,150,160;    /* bleu pétrole clair  (r,g,b) */
+  --greenA:  140,255,190;  /* vert "frise"        (r,g,b) */
+
+  --text-margin: 10%;      /* marges latérales du texte (facile à régler) */
+
+  /* Frises décoratives */
+  --side-frise-w: 34px;    /* largeur colonne frise latérale */
+  --side-frise-gap: 12px;  /* écart frise latérale ↔ texte   */
+  --h-frise-h: 36px;       /* hauteur frise horizontale      */
+}
+
+/* ---- Base ---- */
+html,body{height:100%}
+body{
+  margin:0;
+  background: var(--bg) url("fond_glyphstack.png") no-repeat center top fixed;
+  background-size: cover;
+  color: var(--gold);
+  font-family: "JetBrains Mono", monospace;
+  line-height: 1.55;
+}
+
+/* ---- Frise horizontale du haut ---- */
+.frise-top{ margin:0; position:relative; z-index:1; }
+.frise-img{
+  display:block; width:100%; height:auto;
+  image-rendering: pixelated;
+}
+
+/* ---- Frises latérales (fixes) ---- */
+.frise-side{
+  position: fixed; top:0; bottom:0; z-index:1;
+  width: var(--side-frise-w);
+  background-image: url("frise.png");
+  background-repeat: repeat-y;
+  background-size: 100% auto;
+  image-rendering: pixelated;
+  opacity:.95; pointer-events:none;
+}
+.frise-side.left{
+  left: calc(var(--text-margin) - var(--side-frise-w) - var(--side-frise-gap));
+}
+.frise-side.right{
+  right: calc(var(--text-margin) - var(--side-frise-w) - var(--side-frise-gap));
+}
+
+/* ---- Conteneur principal au-dessus des frises ---- */
+.wrap{ position:relative; z-index:2; }
+
+/* ---- Titre : centré sur la même largeur que le texte ---- */
+.title{
+  display:block;
+  max-width: calc(100% - 2*var(--text-margin)); /* même colonne que le texte */
+  margin: 1rem auto 2rem auto;                   /* centré */
+  text-align: center;
+  white-space: normal;
+
+  font-size: clamp(16px, 5vw, 26px);
+  letter-spacing: 0.02em;
+  color: var(--gold);
+
+  /* Stroke apatite + base halo pétrole */
+  text-shadow:
+    1px 0 var(--apatite), -1px 0 var(--apatite),
+    0 1px var(--apatite),  0 -1px var(--apatite),
+    1px 1px var(--apatite), -1px 1px var(--apatite),
+    1px -1px var(--apatite), -1px -1px var(--apatite),
+    0 0 3px rgba(var(--petrolA), .20),
+    0 0 7px rgba(var(--petrolB), .14);
+
+  /* Halos partout (vert + pétrole) */
+  animation:
+    glowGreenPulse 3200ms ease-in-out infinite,
+    haloBlueTwinkle 2600ms ease-in-out infinite;
+  will-change: filter, text-shadow;
+}
+
+/* ---- Zone texte ---- */
+.content{
+  margin: 0 var(--text-margin) 2rem var(--text-margin);
+  text-align: justify;
+}
+
+/* ---- Paragraphes (stroke + double halo) ---- */
+.content p{
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 2rem 0;
+  text-indent: 2rem;
+  letter-spacing: 0.01em;
+  color: var(--gold);
+
+  text-shadow:
+    1px 0 var(--apatite), -1px 0 var(--apatite),
+    0 1px var(--apatite),  0 -1px var(--apatite),
+    1px 1px var(--apatite), -1px 1px var(--apatite),
+    1px -1px var(--apatite), -1px -1px var(--apatite),
+    0 0 3px rgba(var(--petrolA), .20),
+    0 0 7px rgba(var(--petrolB), .14);
+
+  animation:
+    glowGreenPulse 3400ms ease-in-out infinite,
+    haloBlueTwinkle 3000ms ease-in-out infinite;
+  will-change: filter, text-shadow;
+}
+
+/* ---- Frise horizontale toutes les 3 sections (hérite des halos) ---- */
+.content p:nth-of-type(3n)::after{
+  content:"";
+  display:block;
+  height: var(--h-frise-h);
+  margin: 1.2rem 0 1.6rem 0;
+  background: url("frise.png") center/100% auto no-repeat;
+  image-rendering: pixelated;
+  /* pas d’annulation de glow : la frise brille aussi, comme demandé */
+}
+
+/* ---- Lien 'flow' ---- */
+.flow-link{
+  color: var(--apatite);
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
+}
+.flow-link:hover{
+  color: #e2b84b;
+  border-bottom-color:#e2b84b;
+}
+
+/* ---- QR ---- */
+.qr{
+  width:140px; height:140px; margin:28px auto 0;
+  background: url("qrcode.png") center/contain no-repeat;
+  filter: drop-shadow(0 0 3px rgba(0,0,0,.35));
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 700px){
+  :root{
+    --text-margin: 8%;
+    --side-frise-w: 28px;
+    --side-frise-gap: 8px;
+    --h-frise-h: 28px;
+  }
+}
+
+/* ---- Animations ---- */
+/* Vert vivant via filter (épouse bien le contour) */
+@keyframes glowGreenPulse{
+  0%,100%{
+    filter:
+      drop-shadow(0 0 2px rgba(var(--greenA), .24))
+      drop-shadow(0 0 5px rgba(var(--greenA), .16));
+  }
+  50%{
+    filter:
+      drop-shadow(0 0 6px rgba(var(--greenA), .50))
+      drop-shadow(0 0 12px rgba(var(--greenA), .30));
+  }
+}
+/* Pétrole scintillant (alpha qui varie) */
+@keyframes haloBlueTwinkle{
+  0%,100%{
+    text-shadow:
+      1px 0 var(--apatite), -1px 0 var(--apatite),
+      0 1px var(--apatite),  0 -1px var(--apatite),
+      1px 1px var(--apatite), -1px 1px var(--apatite),
+      1px -1px var(--apatite), -1px -1px var(--apatite),
+      0 0 3px rgba(var(--petrolA), .18),
+      0 0 7px rgba(var(--petrolB), .12);
+  }
+  50%{
+    text-shadow:
+      1px 0 var(--apatite), -1px 0 var(--apatite),
+      0 1px var(--apatite),  0 -1px var(--apatite),
+      1px 1px var(--apatite), -1px 1px var(--apatite),
+      1px -1px var(--apatite), -1px -1px var(--apatite),
+      0 0 3px rgba(var(--petrolA), .26),
+      0 0 7px rgba(var(--petrolB), .18);
+  }
+}
+
+/* ===== Hooks d’animation utilisés par index_fx.js ===== */
+
+/* Oscillation légère/forte sur la colonne texte */
+@keyframes osc-soft {
+  0% { transform: translateX(0) }
+  50% { transform: translateX(1.5px) }
+  100% { transform: translateX(0) }
+}
+@keyframes osc-hard {
+  0% { transform: translateX(0) }
+  25% { transform: translateX(-4px) }
+  50% { transform: translateX(4px) }
+  75% { transform: translateX(-3px) }
+  100% { transform: translateX(0) }
+}
+.content.oscSoft { animation: osc-soft 180ms ease-in-out infinite; }
+.content.oscHard { animation: osc-hard 180ms linear infinite; }
+
+/* Secousse globale courte */
+@keyframes sator-shake-soft {
+  0% { transform: translateX(0) }
+  30% { transform: translateX(-2px) }
+  60% { transform: translateX(2px) }
+  100% { transform: translateX(0) }
+}
+body.shakeSoft { animation: sator-shake-soft 140ms linear 1; }
+
+/* Flash plein écran discret */
+@keyframes sator-flash-soft {
+  0% { opacity: 0 }
+  10% { opacity: .85 }
+  100% { opacity: 0 }
+}
+body.flashSoft::after{
+  content:"";
+  position: fixed; inset: 0;
+  background: #ffffff;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: sator-flash-soft 120ms ease-out 1;
+}
+
+/* Paragraphe glow/vanish brefs (s’ajoute à tes halos existants) */
+.content p{
+  transition: opacity .22s ease, filter .22s ease;
+  will-change: opacity, filter;
+}
+.content p.glow{
+  filter: brightness(1.18) contrast(1.08);
+  text-shadow:
+    1px 0 var(--apatite), -1px 0 var(--apatite),
+    0 1px var(--apatite),  0 -1px var(--apatite),
+    1px 1px var(--apatite), -1px 1px var(--apatite),
+    1px -1px var(--apatite), -1px -1px var(--apatite),
+    0 0 4px rgba(var(--petrolA), .28),
+    0 0 10px rgba(var(--petrolB), .18);
+}
+.content p.vanish{ opacity: 0; filter: blur(1px); }
+
+/* Respecte l’accessibilité si l’utilisateur réduit les animations */
+@media (prefers-reduced-motion: reduce){
+  .content.oscSoft, .content.oscHard,
+  body.shakeSoft, body.flashSoft::after,
+  .content p { animation: none !important; transition: none !important; }
+}
